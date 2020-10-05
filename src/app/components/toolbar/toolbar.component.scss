@@ -1,0 +1,20 @@
+mat-toolbar{
+    display: flex;
+    flex-direction: row;
+}
+
+mat-toolbar > *{
+    display: inline;
+}
+
+.left-aligned-toolbar{
+    justify-content: flex-start;
+}
+
+.center-aligned-toolbar{
+    justify-content: center;
+}
+
+.right-aligned-toolbar{
+    justify-content: flex-end;
+}

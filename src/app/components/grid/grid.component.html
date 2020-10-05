@@ -1,0 +1,25 @@
+<div id="grid-container">
+
+    <mat-grid-list cols="{{dimension}}" rowHeight="fit">
+        <mat-grid-tile *ngFor="let tile of tiles" [colspan]=1 [rowspan]=1>
+            {{tile.getId()}}
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <div id="button-container">
+        <button mat-icon-button>
+            <mat-icon>fast_rewind</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>play_arrow</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>fast_forward</mat-icon>
+        </button>
+
+    </div>
+<div>
+
+
+
+  

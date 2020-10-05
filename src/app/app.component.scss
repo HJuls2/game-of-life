@@ -1,0 +1,31 @@
+header{
+    margin-bottom: 16px;
+}
+
+footer {
+    margin-top: 16px;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height: 64px;
+}
+
+
+app-grid{
+    display: block;
+    width: 100%;
+    height: 100%;
+   
+    
+}
+
+#container{
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 95%;
+    height: 80%;
+    margin: 0 2.5% 0 2.5%;
+    //background-color: yellow;
+}

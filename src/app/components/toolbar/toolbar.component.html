@@ -1,0 +1,9 @@
+<mat-toolbar color="primary" [ngClass]="{
+    'left-aligned-toolbar': align === 'left',
+    'center-aligned-toolbar': align === 'center',
+    'right-aligned-toolbar': align === 'right'
+}">
+    <span>{{title | titlecase}}</span>
+</mat-toolbar>
+
+
