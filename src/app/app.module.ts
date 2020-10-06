@@ -7,7 +7,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ANGULAR MATERIAL
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 // APP COMPONENTS
@@ -25,7 +29,11 @@ import { GridComponent } from './components/grid/grid.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatBadgeModule,
+    MatButtonModule,
     MatGridListModule,
+    MatIconModule,
+    MatSliderModule,
     MatToolbarModule
   ],
   providers: [],

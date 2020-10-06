@@ -17,3 +17,17 @@ mat-grid-tile{
     justify-content: center;
     flex-direction: row;
 }
+
+.tile-content{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.alive-tile{
+    background-color: yellow;
+}
+
+.empty-tile{
+    background-color: white;
+}

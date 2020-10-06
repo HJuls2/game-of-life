@@ -1,24 +1,27 @@
 <div id="grid-container">
-
     <mat-grid-list cols="{{dimension}}" rowHeight="fit">
         <mat-grid-tile *ngFor="let tile of tiles" [colspan]=1 [rowspan]=1>
-            {{tile.getId()}}
+            <div class="tile-content"  [ngClass]= "{'alive-tile': tile.isAlive(), 'empty-tile': !tile.isAlive() }"(click)="onTileClick(tile)" matBadge="tile.getDeaths()">
+                {{tile.getId()}}
+            </div>
+            
         </mat-grid-tile>
     </mat-grid-list>
-
-    <div id="button-container">
-        <button mat-icon-button>
-            <mat-icon>fast_rewind</mat-icon>
-        </button>
-        <button mat-icon-button>
-            <mat-icon>play_arrow</mat-icon>
-        </button>
-        <button mat-icon-button>
-            <mat-icon>fast_forward</mat-icon>
-        </button>
-
-    </div>
 <div>
+<div id="button-container">
+    <button mat-icon-button>
+        <mat-icon>fast_rewind</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon>fast_forward</mat-icon>
+    </button>
+    <mat-slider value="speed" thumbLabel="true" min="1" max="10" step="1" tickInterval="1"></mat-slider>
+</div>
+
+
 
 
 

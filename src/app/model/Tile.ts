@@ -24,7 +24,7 @@ export class Tile {
         }
     }
 
-    private  die(){
+    private die(){
         if(this.state === TileState.ALIVE){
             this.setState(TileState.DEAD);
             this.deaths += 1;
@@ -63,7 +63,7 @@ export class Tile {
         return this.state;
     }
 
-    private setState(state:TileState){
+    public setState(state:TileState){
         this.state = state;
     }
 
@@ -85,6 +85,14 @@ export class Tile {
 
     private setDeaths(deaths: number){
         this.deaths = deaths;
+    }
+
+    public isAlive(): boolean {
+        if(this.getState() === TileState.ALIVE){
+            return true;
+        } else{
+            return false;
+        }
     }
 
 
