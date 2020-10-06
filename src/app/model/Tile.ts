@@ -17,14 +17,14 @@ export class Tile {
         this.deaths = deaths? deaths : 0;
     }
 
-    private born(){
+    public born(){
         if(this.state === TileState.EMPTY){
             this.state = TileState.ALIVE;
             this.births +=1;
         }
     }
 
-    private die(){
+    public die(){
         if(this.state === TileState.ALIVE){
             this.setState(TileState.DEAD);
             this.deaths += 1;
