@@ -22,7 +22,7 @@ export class GridComponent implements OnInit{
 
   ngOnInit(): void {
     if (!this.dimension) {
-      this.dimension = 5;
+      this.dimension = 10;
     }
 
     this.tiles = new Array(this.dimension *  this.dimension);
@@ -48,41 +48,40 @@ export class GridComponent implements OnInit{
   }
 
   public computeNextGlobalState(): void{
-    let variations = new Array(this.tiles.length).fill(0);
+    const variations = new Array(this.tiles.length).fill(0);
 
-    let eligibleToDie = this.tiles.filter(tile =>
+    const eligibleToDie = this.tiles.filter(tile =>
         tile.getState() === TileState.ALIVE && (this.numNeighborsPerTile[tile.getId()] <= 1 || this.numNeighborsPerTile[tile.getId()] >= 4)
       );
 
-    console.log(eligibleToDie);
 
-    let eligibleToBorn = this.tiles.filter(tile =>
+    const eligibleToBorn = this.tiles.filter(tile =>
         tile.getState() !== TileState.ALIVE && this.numNeighborsPerTile[tile.getId()] === 3
       );
 
-    console.log(eligibleToBorn);
 
-    for(let tile of eligibleToDie){
+    for(const tile of eligibleToDie){
       const neighborsIds = this.getNeighbors(tile.getId());
       tile.die();
       for (const id of neighborsIds){
         variations[id] -= 1;
       }
+      this.tiles[tile.getId()] = tile;
     }
 
-    for(let tile of eligibleToBorn){
+    for(const tile of eligibleToBorn){
       const neighborsIds = this.getNeighbors(tile.getId());
       tile.born();
       for (const id of neighborsIds){
         variations[id] += 1;
       }
+      this.tiles[tile.getId()] = tile;
     }
 
-    this.numNeighborsPerTile = this.numNeighborsPerTile.map((number,id) =>{
-      return number + variations[id];
-    });
-    
-    console.log(this.numNeighborsPerTile);
+    for(let id = 0; id < this.tiles.length; id++){
+      this.numNeighborsPerTile[id] += variations[id];
+    }
+
   }
 
   public increaseDimension(){
@@ -134,8 +133,6 @@ export class GridComponent implements OnInit{
         neighborhood.filter( tileId => tileId !== id - this.dimension +1 && tileId !== id+1 && tileId !== id + this.dimension+1);
     }
     return neighborhood;
-    //return this.tiles.filter((neighbor:Tile) => neighborhood.includes(neighbor.getId()));
-
   }
 
 

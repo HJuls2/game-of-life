@@ -6,9 +6,6 @@ export class Tile {
     private state: TileState;
     private births: number;
     private deaths: number;
-    //private neighborsStates: TileState[]
-
-
 
     constructor(id:number,state?:TileState,births?:number, deaths?: number){
         this.id = id;
@@ -18,17 +15,13 @@ export class Tile {
     }
 
     public born(){
-        if(this.state === TileState.EMPTY){
             this.state = TileState.ALIVE;
             this.births +=1;
-        }
     }
 
     public die(){
-        if(this.state === TileState.ALIVE){
             this.setState(TileState.DEAD);
             this.deaths += 1;
-        }
     }
 
     public getId(){
