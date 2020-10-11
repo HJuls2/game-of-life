@@ -37,6 +37,7 @@ export class GridComponent implements OnInit{
   }
 
   public onTileClick(tile: Tile){
+    this.simulation.resetTime();
     if(tile.getState() !== TileState.ALIVE){
       tile.setState(TileState.ALIVE);
       this.updateNeighbors(tile);
@@ -44,10 +45,21 @@ export class GridComponent implements OnInit{
       tile.setState(TileState.EMPTY);
       this.updateNeighbors(tile);
     }
-    console.log(this.numNeighborsPerTile);
+  }
+
+  public playSimulation(): void{
+    this.simulation.setPlayed(true);
+    const intervalId =  window.setInterval(() => this.computeNextGlobalState(), 1000 / this.simulation.getSpeed());
+    this.simulation.setIntervalId(intervalId);
+  }
+
+  public pauseSimulation(){
+    this.simulation.setPlayed(false);
+    window.clearInterval(this.simulation.getIntervalId());
   }
 
   public computeNextGlobalState(): void{
+    this.simulation.increaseTime();
     const variations = new Array(this.tiles.length).fill(0);
 
     const eligibleToDie = this.tiles.filter(tile =>

@@ -1,33 +1,50 @@
 export class Simulation{
-    private _time: number;
-    private _speed: number;
-    private _isPlayed: boolean;
+    private time: number;
+    private speed: number;
+    private played: boolean;
+    private intervalId: number;
 
     constructor(speed?: number){
         this.time = 0;
         this.speed = speed ? speed : 1;
-        this.isPlayed = false;
+        this.played = false;
+        this.intervalId = null;
     }
 
-    public get time(): number {
-        return this._time;
-    }
-    public set time(value: number) {
-        this._time = value;
+    public increaseTime(){
+        this.time += 1;
     }
 
-    public get speed(): number {
-        return this._speed;
-    }
-    public set speed(value: number) {
-        this._speed = value;
+    public resetTime(){
+        this.time = 0;
     }
 
-    public get isPlayed(): boolean {
-        return this._isPlayed;
+    public getTime(): number {
+        return this.time;
     }
-    public set isPlayed(value: boolean) {
-        this._isPlayed = value;
+
+    public getSpeed(): number {
+        return this.speed;
+    }
+
+    public setSpeed(speed: number) {
+        this.speed = speed;
+    }
+
+    public isPlayed(): boolean {
+        return this.played;
+    }
+
+    public setPlayed(played: boolean) {
+        this.played = played;
+    }
+
+    public getIntervalId(): number{
+        return this.intervalId;
+    }
+
+    public setIntervalId(intervalId: number): void{
+        this.intervalId = intervalId;
     }
 
 }
