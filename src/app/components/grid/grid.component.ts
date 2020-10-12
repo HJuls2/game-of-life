@@ -1,7 +1,8 @@
 import { Simulation } from './../../model/Simulation';
 import { TileState } from './../../model/TileState';
 import { Tile } from './../../model/Tile';
-import { Component, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -11,14 +12,14 @@ import { Component, OnInit} from '@angular/core';
 })
 export class GridComponent implements OnInit{
 
-  dimension: number;
+  @Input() dimension: number;
   tiles: Tile[];
   numNeighborsPerTile: number[];
   tileStateEnum = typeof TileState;
   simulation: Simulation;
 
 
-  constructor() { }
+  constructor(private steadyStateSnackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     if (!this.dimension) {
@@ -70,6 +71,10 @@ export class GridComponent implements OnInit{
     const eligibleToBorn = this.tiles.filter(tile =>
         tile.getState() !== TileState.ALIVE && this.numNeighborsPerTile[tile.getId()] === 3
       );
+
+      if (eligibleToBorn.length === 0 && eligibleToDie.length === 0){
+        this.openSteadyStateSnackbar();
+      }
 
 
     for(const tile of eligibleToDie){
@@ -159,6 +164,14 @@ export class GridComponent implements OnInit{
         this.numNeighborsPerTile[id] -= 1;
       }
     }
+  }
+
+  private openSteadyStateSnackbar(){
+    this.steadyStateSnackbar.open('The game of life has reached a steady state. Simulation has been stopped.', null , {
+      duration: 3000
+    });
+    this.pauseSimulation();
+
   }
 
 }

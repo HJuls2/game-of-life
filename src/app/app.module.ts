@@ -11,6 +11,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -33,6 +34,7 @@ import { GridComponent } from './components/grid/grid.component';
     MatButtonModule,
     MatGridListModule,
     MatIconModule,
+    MatSnackBarModule,
     MatSliderModule,
     MatToolbarModule
   ],
