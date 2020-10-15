@@ -167,7 +167,8 @@ export class GridComponent implements OnInit{
   }
 
   private openSteadyStateSnackbar(){
-    this.steadyStateSnackbar.open('The game of life has reached a steady state. Simulation has been stopped.', null , {
+    const message = this.simulation.isPlayed() ? 'The game of life has reached a steady state. Simulation has been stopped.' : 'The game of life has reached a steady state.';
+    this.steadyStateSnackbar.open(message, null , {
       duration: 3000
     });
     this.pauseSimulation();
