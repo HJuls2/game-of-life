@@ -1,22 +1,23 @@
-<div id="grid-container">
-    <mat-grid-list cols="{{dimension}}" rowHeight="fit">
-        <mat-grid-tile *ngFor="let tile of tiles" [colspan]=1 [rowspan]=1>
-            <div class="tile-content"  [ngClass]= "{'alive-tile': tile.isAlive(), 'empty-tile': !tile.isAlive() }"(click)="onTileClick(tile)">
-                <!-- <mat-icon matBadge="{{tile.getBirths()}}">thumb_up</mat-icon>
-                <mat-icon matBadge="{{tile.getDeaths()}}">thumb_down</mat-icon> -->
-            </div>
-            
-        </mat-grid-tile>
-    </mat-grid-list>
-<div>
+<div id="grid-container" class="mat-elevation-z8">
+        <mat-grid-list cols="{{dimension}}" >
+            <mat-grid-tile *ngFor="let tile of tiles" [colspan]=1 [rowspan]=1>
+                <div class="tile-content"  [ngClass]= "{'alive-tile': tile.isAlive(), 'empty-tile': !tile.isAlive() }"(click)="onTileClick(tile)">
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+        
+    
+</div>
+
+
 <div id="button-container">
     <ng-container *ngIf="!simulation.isPlayed(); else pauseButton">
-        <button mat-icon-button (click)="playSimulation()">
+        <button mat-icon-button (click)="playSimulation()" color="accent">
             <mat-icon>play_arrow</mat-icon>
         </button>
     </ng-container>
     <ng-template #pauseButton>
-        <button mat-icon-button (click)="pauseSimulation()">
+        <button mat-icon-button (click)="pauseSimulation()" color="accent">
             <mat-icon>pause</mat-icon>
         </button>
     </ng-template>
@@ -24,7 +25,7 @@
     <button mat-icon-button (click)="computeNextGlobalState()">
         <mat-icon>skip_next</mat-icon>
     </button>
-    <mat-slider value="speed" thumbLabel="true" min="1" max="10" step="1" tickInterval="1"></mat-slider>
+    <mat-slider value="simulation.speed" thumbLabel="true" min="1" max="100" step="1" tickInterval="1" (change)="simulation.setSpeed(value)"></mat-slider>
     <span> {{simulation.getTime()}}</span>
 </div>
 

@@ -3,7 +3,7 @@ mat-toolbar{
     flex-direction: row;
 }
 
-mat-toolbar > *{
+mat-toolbar > span{
     display: inline;
 }
 
@@ -17,4 +17,31 @@ mat-toolbar > *{
 
 .right-aligned-toolbar{
     justify-content: flex-end;
+}
+
+
+@media screen and (max-width: 1024x){
+    mat-toolbar{
+        height: 64px;
+    }
+}
+
+@media screen and (max-width: 960px){
+    mat-toolbar{
+        height: 64px;
+    }
+}
+
+@media screen and (max-width: 600px){
+    mat-toolbar{
+        height: 48px;
+        font-size: medium;
+    }
+}
+
+@media screen and (max-width: 480px){
+    mat-toolbar{
+        height: 32px;
+        font-size: small;
+    }
 }

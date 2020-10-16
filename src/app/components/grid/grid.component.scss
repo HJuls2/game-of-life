@@ -1,16 +1,15 @@
-mat-grid-list{
-    width: 100%;
-    height: 100%;
-}
+
 
 mat-grid-tile{
     border:1px solid black;
 }
 
-#grid-container {
-    width: 100%;
-    height: 100%;
+#grid-container{
+    position: relative;
+    margin: 0 auto;
+    width: 85vh;
 }
+
 
 #button-container{
     display: flex;
@@ -37,3 +36,23 @@ mat-grid-tile{
 .tile-content > mat-icon{
     margin-left: 8px;
 }
+
+@media screen and (max-width: 960px){
+    #grid-container{
+        width: 864px;
+    }
+}
+
+@media screen and (max-width: 600px){
+    #grid-container{
+        width: 540px;
+    }
+}
+
+@media screen and (max-width: 480px){
+    #grid-container{
+        width: 90vw;
+    }
+}
+
+

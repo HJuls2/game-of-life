@@ -59,6 +59,9 @@ export class GridComponent implements OnInit{
     window.clearInterval(this.simulation.getIntervalId());
   }
 
+  /**
+   * Compute the next state of the whole grid according to the current situation.
+   */
   public computeNextGlobalState(): void{
     this.simulation.increaseTime();
     const variations = new Array(this.tiles.length).fill(0);
@@ -115,9 +118,9 @@ export class GridComponent implements OnInit{
 
 
   /**
-   *
-   * @param id id number of a target tile
-   * @returns array of ids of the neighbors
+   * Returns the tiles ids that border on the specified tile.
+   * @param id Id number of a target tile.
+   * @returns Array of ids of the neighbors.
    */
   private getNeighbors(id: number): number[] {
     /* LEGEND:
@@ -128,7 +131,7 @@ export class GridComponent implements OnInit{
     |  id + this.dimension - 1   |  id + this.dimension    |  id + this.dimension + 1  |
     */
 
-    // Take all neighbors candidates IDs
+    // Take all (valid) neighbors candidates IDs
     let neighborhood = [
       id - this.dimension - 1,
       id - this.dimension,
@@ -138,7 +141,7 @@ export class GridComponent implements OnInit{
       id + this.dimension - 1,
       id + this.dimension,
       id + this.dimension + 1
-    ].filter( tileId => tileId >= 0 && tileId < this.dimension * this.dimension);
+    ].filter( tileId => tileId >= 0 && tileId < this.dimension * this.dimension); 
 
     if(id % this.dimension === 0){
       // FIRST COLUMN CASE
@@ -152,7 +155,10 @@ export class GridComponent implements OnInit{
     return neighborhood;
   }
 
-
+  /**
+   * Updates, for all the tiles that border on the specified one, the neighborhood statistics.
+   * @param tile The tile that borders the tiles to update.
+   */
   private updateNeighbors(tile: Tile): void{
     const neighborsIds = this.getNeighbors(tile.getId());
     if (tile.getState() === TileState.ALIVE){
@@ -166,7 +172,10 @@ export class GridComponent implements OnInit{
     }
   }
 
-  private openSteadyStateSnackbar(){
+  /**
+   *  Opens a snackbar that warns the user that the grid has reached a steady state.
+   */
+  private openSteadyStateSnackbar(): void{
     const message = this.simulation.isPlayed() ? 'The game of life has reached a steady state. Simulation has been stopped.' : 'The game of life has reached a steady state.';
     this.steadyStateSnackbar.open(message, null , {
       duration: 3000
