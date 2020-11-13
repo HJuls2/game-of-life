@@ -38,6 +38,9 @@ export class GridComponent implements OnInit{
   }
 
   public onTileClick(tile: Tile){
+    if(this.simulation.isPlayed()){
+      return;
+    }
     this.simulation.resetTime();
     if(tile.getState() !== TileState.ALIVE){
       tile.setState(TileState.ALIVE);
