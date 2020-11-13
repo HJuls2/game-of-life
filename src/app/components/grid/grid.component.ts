@@ -59,6 +59,10 @@ export class GridComponent implements OnInit{
     window.clearInterval(this.simulation.getIntervalId());
   }
 
+  public updateSimulationSpeed(event){
+    this.simulation.setSpeed(event.value);
+  }
+
   /**
    * Compute the next state of the whole grid according to the current situation.
    */

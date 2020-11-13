@@ -12,20 +12,20 @@
 
 <div id="button-container">
     <ng-container *ngIf="!simulation.isPlayed(); else pauseButton">
-        <button mat-icon-button (click)="playSimulation()" color="accent">
+        <button mat-icon-button (click)="playSimulation()">
             <mat-icon>play_arrow</mat-icon>
         </button>
     </ng-container>
     <ng-template #pauseButton>
-        <button mat-icon-button (click)="pauseSimulation()" color="accent">
+        <button mat-icon-button (click)="pauseSimulation()">
             <mat-icon>pause</mat-icon>
         </button>
     </ng-template>
     
-    <button mat-icon-button (click)="computeNextGlobalState()">
+    <button *ngIf="!simulation.isPlayed()" mat-icon-button (click)="computeNextGlobalState()">
         <mat-icon>skip_next</mat-icon>
     </button>
-    <mat-slider value="simulation.speed" thumbLabel="true" min="1" max="100" step="1" tickInterval="1" (change)="simulation.setSpeed(value)"></mat-slider>
+    <mat-slider *ngIf="!simulation.isPlayed()" value="simulation.speed" thumbLabel="true" min="1" max="10" step="1" tickInterval="1" (change)="updateSimulationSpeed($event)"></mat-slider>
     <span> {{simulation.getTime()}}</span>
 </div>
 
