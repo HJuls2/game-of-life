@@ -2,54 +2,26 @@ import { TileState } from './TileState';
 
 export class Tile {
     private id: number;
-    private previousState: TileState;
     private state: TileState;
-    private births: number;
-    private deaths: number;
+    lifeTime: number;
 
-    constructor(id:number,state?:TileState,births?:number, deaths?: number){
+    constructor(id:number,state?:TileState){
         this.id = id;
         this.state = state? state: TileState.EMPTY;
-        this.births = births? births : 0;
-        this.deaths = deaths? deaths : 0;
+        this.lifeTime = state === TileState.ALIVE ? 1 : 0;
     }
 
     public born(){
             this.state = TileState.ALIVE;
-            this.births +=1;
     }
 
     public die(){
-            this.setState(TileState.DEAD);
-            this.deaths += 1;
+            this.state = TileState.DEAD;
+            this.resetLifeTime();
     }
 
     public getId(){
         return this.id;
-    }
-
-    public computeNextState(neighbors: Tile[]){
-        this.previousState = this.state;
-        const aliveNeighbors = neighbors.filter(tile => tile.getState() === TileState.ALIVE).length;
-        switch(this.state){
-            case TileState.ALIVE:{
-                if (aliveNeighbors <=1 && aliveNeighbors >= 4){
-                    this.die();
-                }
-                break;
-            }
-            case TileState.EMPTY:{
-                if(aliveNeighbors === 3){
-                    this.born();
-                }
-                break;
-            }
-            case TileState.DEAD: {
-                this.state = TileState.EMPTY;
-                break;
-            }
-        }
-
     }
 
     public getState(){
@@ -60,33 +32,27 @@ export class Tile {
         this.state = state;
     }
 
-    public getPreviousState(){
-        return this.previousState;
-    }
-
-    public getBirths(): number{
-        return this.births;
-    }
-
-    private setBirths(births: number) {
-        this.births = births;
-    }
-
-    public getDeaths(){
-        return this.deaths;
-    }
-
-    private setDeaths(deaths: number){
-        this.deaths = deaths;
-    }
-
     public isAlive(): boolean {
-        if(this.getState() === TileState.ALIVE){
-            return true;
-        } else{
-            return false;
-        }
+        return this.getState() === TileState.ALIVE;
     }
+
+    public getLifeTime(): number{
+        return this.lifeTime;
+    }
+
+    public setLifeTime(lifeTime: number){
+        this.lifeTime = lifeTime;
+    }
+
+    public increaseLifeTime(): void{
+        this.lifeTime += 1;
+    }
+
+    public resetLifeTime(): void{
+        this.lifeTime = 0;
+    }
+
+    
 
 
 

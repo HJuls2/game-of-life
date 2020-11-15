@@ -2,6 +2,7 @@
         <mat-grid-list cols="{{dimension}}" >
             <mat-grid-tile *ngFor="let tile of tiles" [colspan]=1 [rowspan]=1>
                 <div class="tile-content"  [ngClass]= "{'alive-tile': tile.isAlive(), 'empty-tile': !tile.isAlive() }" (click)="onTileClick(tile)">
+                    <span>{{tile.lifeTime}}</span>
                 </div>
             </mat-grid-tile>
         </mat-grid-list>

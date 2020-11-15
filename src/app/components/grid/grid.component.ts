@@ -15,7 +15,6 @@ export class GridComponent implements OnInit{
   @Input() dimension: number;
   tiles: Tile[];
   numNeighborsPerTile: number[];
-  tileStateEnum = typeof TileState;
   simulation: Simulation;
 
 
@@ -37,6 +36,10 @@ export class GridComponent implements OnInit{
     this.simulation = new Simulation();
   }
 
+  /**
+   * Performs operations as a result of a user interaction with a Tile when the simulation is stopped/paused.
+   * @param tile The tile clicked by the user.
+   */
   public onTileClick(tile: Tile){
     if(this.simulation.isPlayed()){
       return;
@@ -71,6 +74,8 @@ export class GridComponent implements OnInit{
    */
   public computeNextGlobalState(): void{
     this.simulation.increaseTime();
+
+    // Array to store the variations (in terms of number of neighbors) for each tile
     const variations = new Array(this.tiles.length).fill(0);
 
     const eligibleToDie = this.tiles.filter(tile =>
@@ -148,7 +153,7 @@ export class GridComponent implements OnInit{
       id + this.dimension - 1,
       id + this.dimension,
       id + this.dimension + 1
-    ].filter( tileId => tileId >= 0 && tileId < this.dimension * this.dimension); 
+    ].filter( tileId => tileId >= 0 && tileId < this.dimension * this.dimension);
 
     if(id % this.dimension === 0){
       // FIRST COLUMN CASE
