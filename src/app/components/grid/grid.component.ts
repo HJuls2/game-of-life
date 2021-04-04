@@ -50,24 +50,24 @@ export class GridComponent implements OnInit{
       return;
     }
     this.simulation.resetTime();
-    if(tile.getState() !== TileState.ALIVE){
-      tile.setState(TileState.ALIVE);
+    if(tile.state !== TileState.ALIVE){
+      tile.state = TileState.ALIVE;
       this.updateNeighbors(tile);
     } else {
-      tile.setState(TileState.EMPTY);
+      tile.state = TileState.EMPTY;
       this.updateNeighbors(tile);
     }
   }
 
   public playSimulation(): void{
-    this.simulation.setPlayed(true);
-    const intervalId =  window.setInterval(() => this.computeNextGlobalState(), 1000 / this.simulation.getSpeed());
-    this.simulation.setIntervalId(intervalId);
+    this.simulation.played = true;
+    const intervalId =  window.setInterval(() => this.computeNextGlobalState(), 1000 / this.simulation.speed);
+    this.simulation.intervalId = intervalId;
   }
 
   public pauseSimulation(){
-    this.simulation.setPlayed(false);
-    window.clearInterval(this.simulation.getIntervalId());
+    this.simulation.played = false;
+    window.clearInterval(this.simulation.intervalId);
   }
 
   public reset(){
@@ -76,7 +76,7 @@ export class GridComponent implements OnInit{
       this.numNeighborsPerTile[this.tiles.indexOf(tile)] = 0;
     }
     this.simulation.resetTime();
-    this.simulation.setIntervalId(null);
+    this.simulation.intervalId = null;
   }
 
   /**
@@ -115,12 +115,12 @@ export class GridComponent implements OnInit{
 
     // Retrieve tiles that are going to die
     const eligibleToDie = this.tiles.filter(tile =>
-        tile.getState() === TileState.ALIVE && (this.numNeighborsPerTile[tile.getId()] <= 1 || this.numNeighborsPerTile[tile.getId()] >= 4)
+        tile.state === TileState.ALIVE && (this.numNeighborsPerTile[tile.id] <= 1 || this.numNeighborsPerTile[tile.id] >= 4)
       );
 
     // Retrieve tiles that are going to born
     const eligibleToBorn = this.tiles.filter(tile =>
-        tile.getState() !== TileState.ALIVE && this.numNeighborsPerTile[tile.getId()] === 3
+        tile.state !== TileState.ALIVE && this.numNeighborsPerTile[tile.id] === 3
       );
 
       // Check if the simulation has reached a steady state
@@ -130,22 +130,22 @@ export class GridComponent implements OnInit{
 
     // Kill the tiles eligible to die and decrease by one the number of neighbors for every neighbor of the killed tiles
     for(const tile of eligibleToDie){
-      const neighborsIds = this.getNeighbors(tile.getId());
+      const neighborsIds = this.getNeighbors(tile.id);
       tile.die();
       for (const id of neighborsIds){
         variations[id] -= 1;
       }
-      this.tiles[tile.getId()] = tile;
+      this.tiles[tile.id] = tile;
     }
 
     // Give birth to the tiles eligible to born and increase by one the number of neighbors for every neighbor of the newborn tiles
     for(const tile of eligibleToBorn){
-      const neighborsIds = this.getNeighbors(tile.getId());
+      const neighborsIds = this.getNeighbors(tile.id);
       tile.born();
       for (const id of neighborsIds){
         variations[id] += 1;
       }
-      this.tiles[tile.getId()] = tile;
+      this.tiles[tile.id] = tile;
     }
 
     // Update the number of neighbors for every tile
@@ -201,8 +201,8 @@ export class GridComponent implements OnInit{
    * @param tile The tile that borders the tiles to update.
    */
   private updateNeighbors(tile: Tile): void{
-    const neighborsIds = this.getNeighbors(tile.getId());
-    if (tile.getState() === TileState.ALIVE){
+    const neighborsIds = this.getNeighbors(tile.id);
+    if (tile.state === TileState.ALIVE){
       for ( const id of neighborsIds){
         this.numNeighborsPerTile[id] += 1;
       }

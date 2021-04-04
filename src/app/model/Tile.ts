@@ -1,60 +1,60 @@
 import { TileState } from './TileState';
 
 export class Tile {
-    private id: number;
-    private state: TileState;
-    lifeTime: number;
+    private _id: number;
+    private _state: TileState;
+    private _lifeTime: number;
 
     constructor(id:number,state?:TileState){
-        this.id = id;
-        this.state = state? state: TileState.EMPTY;
-        this.lifeTime = state === TileState.ALIVE ? 1 : 0;
+        this._id = id;
+        this._state = state? state: TileState.EMPTY;
+        this._lifeTime = state === TileState.ALIVE ? 1 : 0;
     }
 
     public reset(){
-        this.state = TileState.EMPTY;
+        this._state = TileState.EMPTY;
         this.resetLifeTime();
     }
 
     public born(){
-            this.state = TileState.ALIVE;
+            this._state = TileState.ALIVE;
     }
 
     public die(){
-            this.state = TileState.DEAD;
+            this._state = TileState.DEAD;
             this.resetLifeTime();
     }
 
-    public getId(){
-        return this.id;
+    public get id(){
+        return this._id;
     }
 
-    public getState(){
-        return this.state;
+    public get state(){
+        return this._state;
     }
 
-    public setState(state:TileState){
-        this.state = state;
+    public set state(state:TileState){
+        this._state = state;
     }
 
     public isAlive(): boolean {
-        return this.getState() === TileState.ALIVE;
+        return this._state === TileState.ALIVE;
     }
 
-    public getLifeTime(): number{
-        return this.lifeTime;
+    public get lifeTime(): number{
+        return this._lifeTime;
     }
 
-    public setLifeTime(lifeTime: number){
-        this.lifeTime = lifeTime;
+    public set lifeTime(lifeTime: number){
+        this._lifeTime = lifeTime;
     }
 
     public increaseLifeTime(): void{
-        this.lifeTime += 1;
+        this._lifeTime += 1;
     }
 
     private resetLifeTime(): void{
-        this.lifeTime = 0;
+        this._lifeTime = 0;
     }
 
 

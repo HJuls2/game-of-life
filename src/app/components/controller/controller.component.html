@@ -19,4 +19,4 @@
 
 <mat-slider id="speed-selector" color="primary" *ngIf="!grid.simulation.isPlayed()" [(value)]="grid.simulation.speed" thumbLabel="true" min="1" max="10" step="1" tickInterval="1"></mat-slider>
 
-<span id="counter"> Steps: {{grid.simulation.getTime()}}</span>
+<span id="counter"> Steps: {{grid.simulation.time}}</span>
