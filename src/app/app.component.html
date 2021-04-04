@@ -2,11 +2,7 @@
     <app-toolbar title="The Game of Life"></app-toolbar>
 </header>
 
-<app-grid [dimension]="20"></app-grid>
+<app-controller [grid]="grid"></app-controller>
 
-<!-- <footer>
-    <app-toolbar id="footer" title="developed by Giulio Baronti - 2020" align="center" ></app-toolbar>
-</footer> -->
+<app-grid #grid [dimension]="20" ></app-grid>
 
-
-<router-outlet></router-outlet>

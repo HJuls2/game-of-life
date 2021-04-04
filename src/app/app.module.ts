@@ -19,12 +19,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { GridComponent } from './components/grid/grid.component';
+import { ControllerComponent } from './controller/controller.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    GridComponent
+    GridComponent,
+    ControllerComponent
   ],
   imports: [
     BrowserModule,

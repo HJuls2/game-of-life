@@ -1,0 +1,19 @@
+<div id="button-container">
+    <ng-container *ngIf="!grid.simulation.isPlayed(); else pauseButton">
+        <button mat-icon-button class="central-button" (click)="grid.playSimulation()">
+            <mat-icon>play_arrow</mat-icon>
+        </button>
+    </ng-container>
+    <ng-template #pauseButton>
+        <button mat-icon-button class="central-button" (click)="grid.pauseSimulation()">
+            <mat-icon>pause</mat-icon>
+        </button>
+    </ng-template>
+    
+    <button id="next-step" *ngIf="!grid.simulation.isPlayed()" mat-icon-button (click)="grid.computeNextGlobalState()">
+        <mat-icon>skip_next</mat-icon>
+    </button>
+    <mat-slider id="speed-selector" *ngIf="!grid.simulation.isPlayed()" value="grid.simulation.speed"
+                thumbLabel="true" min="1" max="10" step="1" tickInterval="1" (change)="grid.updateSimulationSpeed($event)"></mat-slider>
+    <span id="counter"> {{grid.simulation.getTime()}}</span>
+</div>

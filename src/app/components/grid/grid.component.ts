@@ -15,7 +15,7 @@ export class GridComponent implements OnInit{
   @Input() dimension: number;
   tiles: Tile[];
   numNeighborsPerTile: number[];
-  simulation: Simulation;
+  public simulation: Simulation;
 
 
   constructor(private steadyStateSnackbar: MatSnackBar) { }

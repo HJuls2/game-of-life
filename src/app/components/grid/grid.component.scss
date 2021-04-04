@@ -1,5 +1,4 @@
 mat-grid-tile{
-    border:1px solid black;
     cursor: pointer;
 }
 
@@ -44,7 +43,7 @@ mat-grid-tile{
 }
 
 .alive-tile{
-    background-color: yellow;
+    background-color: #ff4081;
 }
 
 .empty-tile{
