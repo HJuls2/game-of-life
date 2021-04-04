@@ -37,7 +37,10 @@ export class GridComponent implements OnInit{
   }
 
   /**
-   * Performs operations as a result of a user interaction with a Tile when the simulation is stopped/paused.
+   * As a result of a user interaction with a Tile when the simulation is stopped/paused:
+   * - reset the counter of performed steps;
+   * - check the state of the clicked tile;
+   * - update the tile state and its neighbors state.
    * @param tile The tile clicked by the user.
    */
   public onTileClick(tile: Tile){
@@ -63,10 +66,6 @@ export class GridComponent implements OnInit{
   public pauseSimulation(){
     this.simulation.setPlayed(false);
     window.clearInterval(this.simulation.getIntervalId());
-  }
-
-  public updateSimulationSpeed(event){
-    this.simulation.setSpeed(event.value);
   }
 
   /**
