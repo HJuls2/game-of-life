@@ -1,4 +1,4 @@
-import { GridComponent } from './../components/grid/grid.component';
+import { GridComponent } from '../grid/grid.component';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

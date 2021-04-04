@@ -36,6 +36,8 @@ export class GridComponent implements OnInit{
     this.simulation = new Simulation();
   }
 
+  /* ----- User Interaction Methods ----- */
+
   /**
    * As a result of a user interaction with a Tile when the simulation is stopped/paused:
    * - reset the counter of performed steps;
@@ -78,50 +80,14 @@ export class GridComponent implements OnInit{
   }
 
   /**
-   * Compute the next state of the whole grid according to the current situation.
+   *  Opens a snackbar that warns the user that the grid has reached a steady state.
    */
-  public computeNextGlobalState(): void{
-    this.simulation.increaseTime();
-
-    // Array to store the variations (in terms of number of neighbors) for each tile
-    const variations = new Array(this.tiles.length).fill(0);
-
-    const eligibleToDie = this.tiles.filter(tile =>
-        tile.getState() === TileState.ALIVE && (this.numNeighborsPerTile[tile.getId()] <= 1 || this.numNeighborsPerTile[tile.getId()] >= 4)
-      );
-
-
-    const eligibleToBorn = this.tiles.filter(tile =>
-        tile.getState() !== TileState.ALIVE && this.numNeighborsPerTile[tile.getId()] === 3
-      );
-
-      if (eligibleToBorn.length === 0 && eligibleToDie.length === 0){
-        this.openSteadyStateSnackbar();
-      }
-
-
-    for(const tile of eligibleToDie){
-      const neighborsIds = this.getNeighbors(tile.getId());
-      tile.die();
-      for (const id of neighborsIds){
-        variations[id] -= 1;
-      }
-      this.tiles[tile.getId()] = tile;
-    }
-
-    for(const tile of eligibleToBorn){
-      const neighborsIds = this.getNeighbors(tile.getId());
-      tile.born();
-      for (const id of neighborsIds){
-        variations[id] += 1;
-      }
-      this.tiles[tile.getId()] = tile;
-    }
-
-    for(let id = 0; id < this.tiles.length; id++){
-      this.numNeighborsPerTile[id] += variations[id];
-    }
-
+   private openSteadyStateSnackbar(): void{
+    const message = this.simulation.isPlayed() ? 'The game of life has reached a steady state. Simulation has been stopped.' : 'The game of life has reached a steady state.';
+    this.steadyStateSnackbar.open(message, null , {
+      duration: 3000
+    });
+    this.pauseSimulation();
   }
 
   public increaseDimension(){
@@ -136,6 +102,61 @@ export class GridComponent implements OnInit{
     this.dimension = newDimension;
   }
 
+  /* ----- Grid Management Logic ----- */
+
+  /**
+   * Compute the next state of the whole grid according to the current situation.
+   */
+  public computeNextGlobalState(): void{
+    this.simulation.increaseTime();
+
+    // Array to store the variations (in terms of number of neighbors) for each tile
+    const variations = new Array(this.tiles.length).fill(0);
+
+    // Retrieve tiles that are going to die
+    const eligibleToDie = this.tiles.filter(tile =>
+        tile.getState() === TileState.ALIVE && (this.numNeighborsPerTile[tile.getId()] <= 1 || this.numNeighborsPerTile[tile.getId()] >= 4)
+      );
+
+    // Retrieve tiles that are going to born
+    const eligibleToBorn = this.tiles.filter(tile =>
+        tile.getState() !== TileState.ALIVE && this.numNeighborsPerTile[tile.getId()] === 3
+      );
+
+      // Check if the simulation has reached a steady state
+      if (eligibleToBorn.length === 0 && eligibleToDie.length === 0){
+        this.openSteadyStateSnackbar();
+      }
+
+    // Kill the tiles eligible to die and decrease by one the number of neighbors for every neighbor of the killed tiles
+    for(const tile of eligibleToDie){
+      const neighborsIds = this.getNeighbors(tile.getId());
+      tile.die();
+      for (const id of neighborsIds){
+        variations[id] -= 1;
+      }
+      this.tiles[tile.getId()] = tile;
+    }
+
+    // Give birth to the tiles eligible to born and increase by one the number of neighbors for every neighbor of the newborn tiles
+    for(const tile of eligibleToBorn){
+      const neighborsIds = this.getNeighbors(tile.getId());
+      tile.born();
+      for (const id of neighborsIds){
+        variations[id] += 1;
+      }
+      this.tiles[tile.getId()] = tile;
+    }
+
+    // Update the number of neighbors for every tile
+    for(let id = 0; id < this.tiles.length; id++){
+      this.numNeighborsPerTile[id] += variations[id];
+    }
+
+  }
+
+
+  /* ----- Support Methods ----- */
 
   /**
    * Returns the tiles ids that border on the specified tile.
@@ -190,18 +211,6 @@ export class GridComponent implements OnInit{
         this.numNeighborsPerTile[id] -= 1;
       }
     }
-  }
-
-  /**
-   *  Opens a snackbar that warns the user that the grid has reached a steady state.
-   */
-  private openSteadyStateSnackbar(): void{
-    const message = this.simulation.isPlayed() ? 'The game of life has reached a steady state. Simulation has been stopped.' : 'The game of life has reached a steady state.';
-    this.steadyStateSnackbar.open(message, null , {
-      duration: 3000
-    });
-    this.pauseSimulation();
-
   }
 
 }
