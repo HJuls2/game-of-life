@@ -2,8 +2,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ANGULAR MATERIAL
@@ -30,7 +28,6 @@ import { ControllerComponent } from './controller/controller.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MatBadgeModule,
     MatButtonModule,
