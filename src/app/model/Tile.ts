@@ -11,6 +11,11 @@ export class Tile {
         this.lifeTime = state === TileState.ALIVE ? 1 : 0;
     }
 
+    public reset(){
+        this.state = TileState.EMPTY;
+        this.resetLifeTime();
+    }
+
     public born(){
             this.state = TileState.ALIVE;
     }
@@ -48,11 +53,9 @@ export class Tile {
         this.lifeTime += 1;
     }
 
-    public resetLifeTime(): void{
+    private resetLifeTime(): void{
         this.lifeTime = 0;
     }
-
-    
 
 
 

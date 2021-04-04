@@ -1,6 +1,6 @@
 export class Simulation{
     private time: number;
-    speed: number;
+    public  speed: number;
     private played: boolean;
     private intervalId: number;
 

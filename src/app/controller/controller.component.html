@@ -1,19 +1,22 @@
-<div id="button-container">
+<div id="buttons-container">
     <ng-container *ngIf="!grid.simulation.isPlayed(); else pauseButton">
-        <button mat-icon-button class="central-button" (click)="grid.playSimulation()">
+        <button mat-icon-button (click)="grid.playSimulation()">
             <mat-icon>play_arrow</mat-icon>
         </button>
     </ng-container>
     <ng-template #pauseButton>
-        <button mat-icon-button class="central-button" (click)="grid.pauseSimulation()">
+        <button mat-icon-button (click)="grid.pauseSimulation()">
             <mat-icon>pause</mat-icon>
         </button>
     </ng-template>
-    
-    <button id="next-step" *ngIf="!grid.simulation.isPlayed()" mat-icon-button (click)="grid.computeNextGlobalState()">
+    <button id="next-step" [ngStyle]="{'display': grid.simulation.isPlayed()? 'none' : 'block'}"  mat-icon-button (click)="grid.computeNextGlobalState()">
         <mat-icon>skip_next</mat-icon>
     </button>
-    <mat-slider id="speed-selector" [(value)]="grid.simulation.speed"
-                thumbLabel="true" min="1" max="10" step="1" tickInterval="1" ></mat-slider>
-    <span id="counter"> {{grid.simulation.getTime()}}</span>
+    <button mat-icon-button *ngIf="!grid.simulation.isPlayed()" (click)="grid.reset()">
+        <mat-icon>cleaning_services</mat-icon>
+    </button>
 </div>
+
+<mat-slider id="speed-selector" color="primary" *ngIf="!grid.simulation.isPlayed()" [(value)]="grid.simulation.speed" thumbLabel="true" min="1" max="10" step="1" tickInterval="1"></mat-slider>
+
+<span id="counter"> Steps: {{grid.simulation.getTime()}}</span>

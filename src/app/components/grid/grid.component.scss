@@ -8,32 +8,6 @@ mat-grid-tile{
     width: 85vh;
 }
 
-
-#button-container{
-    margin: 32px auto 32px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    width: 85vh;
-    height: 128px;
-    
-
-    button, mat-slider{
-        margin: 2em;
-    }
-
-    button mat-icon,span {
-        font-size: 5em;
-    }
-
-    #counter{
-        justify-self: flex-end;
-
-    }
-
-}
-
 .tile-content{
     display: grid;
     grid-template-rows: 1fr;

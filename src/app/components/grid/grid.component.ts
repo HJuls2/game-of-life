@@ -68,6 +68,15 @@ export class GridComponent implements OnInit{
     window.clearInterval(this.simulation.getIntervalId());
   }
 
+  public reset(){
+    for(const tile of this.tiles){
+      tile.reset();
+      this.numNeighborsPerTile[this.tiles.indexOf(tile)] = 0;
+    }
+    this.simulation.resetTime();
+    this.simulation.setIntervalId(null);
+  }
+
   /**
    * Compute the next state of the whole grid according to the current situation.
    */

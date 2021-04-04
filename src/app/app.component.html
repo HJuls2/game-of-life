@@ -2,7 +2,9 @@
     <app-toolbar title="The Game of Life"></app-toolbar>
 </header>
 
-<app-controller [grid]="grid"></app-controller>
-
 <app-grid #grid [dimension]="20" ></app-grid>
+
+<div id="controller-container">
+    <app-controller [grid]="grid"></app-controller>
+</div>
 

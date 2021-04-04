@@ -1,0 +1,21 @@
+#buttons-container {
+    display: inline-flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+
+    button mat-icon {
+        margin-right: 8px;
+        font-size: 2em;
+    }
+}
+
+mat-slider {
+    width: 300px;
+}
+
+#counter {
+    margin-left: 3em;
+    justify-self: flex-end;
+    margin-right: 8px;
+    font-size: 2em;
+}
