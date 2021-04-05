@@ -65,5 +65,6 @@ In this section you can find a brief explanation of the structure of source code
 - `AppModule` defines the component to show when the user open the browser in the `boostrap` section, collects all the defined components in the `declarations` section and maintains a list of the external modules in the `imports` section.
 - The `main.ts` file is needed to enable the production mode and for browser support; also `polyfills.ts` and `browserlist` are needed to support multiple browsers.
 - In `styles.scss` you can find general style rules that affects the whole application graphic layout.
+- In `angular.json` you can find internal Angular settings.
 - In `package.json` the developer can specify the dependencies and the development dependencies of the applycation; these are more automatically extended in the `package-lock.json` (intented to be read-only).
 - `ts*.json` are files to define Typescript linting rules.
