@@ -12,7 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class GridComponent implements OnInit{
 
-  @Input() dimension: number;
+  // Dimension of the grid is step by the main component AppComponent; if not provided a 10x10 grid is initialized
+  @Input() dimension: number = 10;
   tiles: Tile[];
   numNeighborsPerTile: number[];
   public simulation: Simulation;
@@ -21,10 +22,6 @@ export class GridComponent implements OnInit{
   constructor(private steadyStateSnackbar: MatSnackBar) { }
 
   ngOnInit(): void {
-    if (!this.dimension) {
-      this.dimension = 10;
-    }
-
     this.tiles = new Array(this.dimension *  this.dimension);
     this.numNeighborsPerTile = new Array(this.dimension * this.dimension);
 
