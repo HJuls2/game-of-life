@@ -45,7 +45,7 @@ All the requirements listed in the assignement text are satistied; the applicati
  As an example, you can use [http-server](https://www.npmjs.com/package/http-server) (requires [Node.js](https://nodejs.org/en/) installed) using the following commands to install and run it:
 
     npm install --global http-server
-    http-server your_path_to_dist_folder/dist/game-of-life --port 8080
+    http-server your_path_to_dist_folder/dist/game-of-life --port 8080 -c-1
 
 Now `http-server` is listening incoming HTTP traffic from `localhost:8080`.
 
