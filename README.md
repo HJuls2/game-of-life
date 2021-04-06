@@ -35,6 +35,10 @@ With reference to the MVVM pattern, in Angular a web application is essentially 
 
 The ***Model*** in Angular is essentially played by some user-defined class referenced in the components Typescript files or/and by the components themselves.
 
+## Exam-related informations
+
+All the requirements listed in the assignement text are satistied; the application also implements the *cell history* **extra** feature.
+
 ## Installation
 
  Clone the repository and serve the content inside the `/dist/game-of-life` folder with a software web server of your choice.
@@ -54,11 +58,14 @@ You can also:
 - pause the simulation,
 - go forward step by step,
 - set the speed of the simulation,
-- reset the global state.
+- reset the global state,
+- see the life time (in number of steps) of each tile evolving during the simulation (**BONUS FEATURE**).
 
 ## Implementation
 
-The logic of the game and the GUI to control the state evolution of the grid is implemented as a <strong>single-page web application</strong> with the framework [Angular](https://angular.io/) using graphic elements by [Angular Material](https://material.angular.io/). The GUI is optimized for a desktop-size view and shows a grid of 20x20 tiles and some controls to play, pause, move forward and set the framerate of the simulation.
+The logic of the game and the GUI to control the state evolution of the grid is implemented as a <strong>single-page web application</strong> with the framework [Angular](https://angular.io/) using graphic elements by [Angular Material](https://material.angular.io/).
+The GUI is optimized for a desktop-size view and shows a grid of 20x20 tiles and some controls to play, pause, move forward and set the framerate of the simulation.
+
 
 ### Guide into the code
 

@@ -19,6 +19,8 @@ export class Simulation{
         this._time = 0;
     }
 
+    /* ----- Getters and Setters ---- */
+
     public get time(): number {
         return this._time;
     }

@@ -1,7 +1,7 @@
 import { Simulation } from './../../model/Simulation';
 import { TileState } from './../../model/TileState';
 import { Tile } from './../../model/Tile';
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit{
+export class GridComponent implements OnInit {
 
   // Dimension of the grid is step by the main component AppComponent; if not provided a 10x10 grid is initialized
   @Input() dimension: number = 10;
@@ -22,10 +22,10 @@ export class GridComponent implements OnInit{
   constructor(private steadyStateSnackbar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.tiles = new Array(this.dimension *  this.dimension);
+    this.tiles = new Array(this.dimension * this.dimension);
     this.numNeighborsPerTile = new Array(this.dimension * this.dimension);
 
-    for(let id = 0; id < this.dimension * this.dimension; id++){
+    for (let id = 0; id < this.dimension * this.dimension; id++) {
       this.tiles[id] = new Tile(id);
       this.numNeighborsPerTile[id] = 0;
     }
@@ -38,37 +38,41 @@ export class GridComponent implements OnInit{
   /**
    * As a result of a user interaction with a Tile when the simulation is stopped/paused:
    * - reset the counter of performed steps;
+   * - reset the life time of all tiles;
    * - check the state of the clicked tile;
-   * - update the tile state and its neighbors state.
+   * - update the tile state and its neighbors state appropriately.
    * @param tile The tile clicked by the user.
    */
-  public onTileClick(tile: Tile){
-    if(this.simulation.isPlayed()){
+  public onTileClick(tile: Tile) {
+    if (this.simulation.isPlayed()) {
       return;
     }
     this.simulation.resetTime();
-    if(tile.state !== TileState.ALIVE){
+    for(const t of this.tiles){
+      t.resetLifeTime();
+    }
+    if (!tile.isAlive()) {
       tile.state = TileState.ALIVE;
       this.updateNeighbors(tile);
     } else {
-      tile.state = TileState.EMPTY;
+      tile.die();
       this.updateNeighbors(tile);
     }
   }
 
-  public playSimulation(): void{
+  public playSimulation(): void {
     this.simulation.played = true;
-    const intervalId =  window.setInterval(() => this.computeNextGlobalState(), 1000 / this.simulation.speed);
+    const intervalId = window.setInterval(() => this.computeNextGlobalState(), 1000 / this.simulation.speed);
     this.simulation.intervalId = intervalId;
   }
 
-  public pauseSimulation(){
+  public pauseSimulation() {
     this.simulation.played = false;
     window.clearInterval(this.simulation.intervalId);
   }
 
-  public reset(){
-    for(const tile of this.tiles){
+  public reset() {
+    for (const tile of this.tiles) {
       tile.reset();
       this.numNeighborsPerTile[this.tiles.indexOf(tile)] = 0;
     }
@@ -79,24 +83,12 @@ export class GridComponent implements OnInit{
   /**
    *  Opens a snackbar that warns the user that the grid has reached a steady state.
    */
-   private openSteadyStateSnackbar(): void{
+  private openSteadyStateSnackbar(): void {
     const message = this.simulation.isPlayed() ? 'The game of life has reached a steady state. Simulation has been stopped.' : 'The game of life has reached a steady state.';
-    this.steadyStateSnackbar.open(message, null , {
+    this.steadyStateSnackbar.open(message, null, {
       duration: 3000
     });
     this.pauseSimulation();
-  }
-
-  public increaseDimension(){
-    this.dimension += 5;
-  }
-
-  public decreaseDimension(){
-    this.dimension -= 5;
-  }
-
-  private setDimension(newDimension: number){
-    this.dimension = newDimension;
   }
 
   /* ----- Grid Management Logic ----- */
@@ -104,7 +96,7 @@ export class GridComponent implements OnInit{
   /**
    * Compute the next state of the whole grid according to the current situation.
    */
-  public computeNextGlobalState(): void{
+  public computeNextGlobalState(): void {
     this.simulation.increaseTime();
 
     // Array to store the variations (in terms of number of neighbors) for each tile
@@ -112,41 +104,48 @@ export class GridComponent implements OnInit{
 
     // Retrieve tiles that are going to die
     const eligibleToDie = this.tiles.filter(tile =>
-        tile.state === TileState.ALIVE && (this.numNeighborsPerTile[tile.id] <= 1 || this.numNeighborsPerTile[tile.id] >= 4)
-      );
+      tile.isAlive() && (this.numNeighborsPerTile[tile.id] <= 1 || this.numNeighborsPerTile[tile.id] >= 4)
+    );
+
+    // Retrieve tiles that are going to survive
+    const eligleToSurvive = this.tiles.filter(tile =>
+      tile.isAlive() && (this.numNeighborsPerTile[tile.id] === 2 || this.numNeighborsPerTile[tile.id] === 3)
+    )
 
     // Retrieve tiles that are going to born
-    const eligibleToBorn = this.tiles.filter(tile =>
-        tile.state !== TileState.ALIVE && this.numNeighborsPerTile[tile.id] === 3
-      );
+    const eligibleToBorn = this.tiles.filter(tile => !tile.isAlive() && this.numNeighborsPerTile[tile.id] === 3);
 
-      // Check if the simulation has reached a steady state
-      if (eligibleToBorn.length === 0 && eligibleToDie.length === 0){
-        this.openSteadyStateSnackbar();
-      }
+    // Check if the simulation has reached a steady state
+    if (eligibleToBorn.length === 0 && eligibleToDie.length === 0) {
+      this.openSteadyStateSnackbar();
+    }
 
     // Kill the tiles eligible to die and decrease by one the number of neighbors for every neighbor of the killed tiles
-    for(const tile of eligibleToDie){
+    for (const tile of eligibleToDie) {
       const neighborsIds = this.getNeighbors(tile.id);
       tile.die();
-      for (const id of neighborsIds){
+      for (const id of neighborsIds) {
         variations[id] -= 1;
       }
       this.tiles[tile.id] = tile;
     }
 
+    for(const tile of eligleToSurvive){
+      tile.increaseLifeTime();
+    }
+
     // Give birth to the tiles eligible to born and increase by one the number of neighbors for every neighbor of the newborn tiles
-    for(const tile of eligibleToBorn){
+    for (const tile of eligibleToBorn) {
       const neighborsIds = this.getNeighbors(tile.id);
       tile.born();
-      for (const id of neighborsIds){
+      for (const id of neighborsIds) {
         variations[id] += 1;
       }
       this.tiles[tile.id] = tile;
     }
 
     // Update the number of neighbors for every tile
-    for(let id = 0; id < this.tiles.length; id++){
+    for (let id = 0; id < this.tiles.length; id++) {
       this.numNeighborsPerTile[id] += variations[id];
     }
 
@@ -179,16 +178,17 @@ export class GridComponent implements OnInit{
       id + this.dimension - 1,
       id + this.dimension,
       id + this.dimension + 1
-    ].filter( tileId => tileId >= 0 && tileId < this.dimension * this.dimension);
+    ].filter(tileId => tileId >= 0 && tileId < this.dimension * this.dimension);
 
-    if(id % this.dimension === 0){
-      // FIRST COLUMN CASE
-        neighborhood =
-            neighborhood.filter( tileId => tileId !== id - this.dimension -1 && tileId !== id - 1 && tileId !== id + this.dimension -1);
-    } else if (id % this.dimension === this.dimension -1){
-        // LAST COLUMN CASE
+    // Edges Management: on the edges the normal neighborhood must be filtered
+    if (id % this.dimension === 0) {
+      // FIRST COLUMN CASE: discard top left, left and bottom left tiles
       neighborhood =
-        neighborhood.filter( tileId => tileId !== id - this.dimension +1 && tileId !== id+1 && tileId !== id + this.dimension+1);
+        neighborhood.filter(tileId => tileId !== id - this.dimension - 1 && tileId !== id - 1 && tileId !== id + this.dimension - 1);
+    } else if (id % this.dimension === this.dimension - 1) {
+      // LAST COLUMN CASE: discard top right, right and bottom right tiles
+      neighborhood =
+        neighborhood.filter(tileId => tileId !== id - this.dimension + 1 && tileId !== id + 1 && tileId !== id + this.dimension + 1);
     }
     return neighborhood;
   }
@@ -197,14 +197,14 @@ export class GridComponent implements OnInit{
    * Updates, for all the tiles that border on the specified one, the neighborhood statistics.
    * @param tile The tile that borders the tiles to update.
    */
-  private updateNeighbors(tile: Tile): void{
+  private updateNeighbors(tile: Tile): void {
     const neighborsIds = this.getNeighbors(tile.id);
-    if (tile.state === TileState.ALIVE){
-      for ( const id of neighborsIds){
+    if (tile.state === TileState.ALIVE) {
+      for (const id of neighborsIds) {
         this.numNeighborsPerTile[id] += 1;
       }
-    } else{
-      for(const id of neighborsIds){
+    } else {
+      for (const id of neighborsIds) {
         this.numNeighborsPerTile[id] -= 1;
       }
     }

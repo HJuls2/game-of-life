@@ -1,14 +1,11 @@
 <div id="grid-container" class="mat-elevation-z8">
-        <mat-grid-list cols="{{dimension}}" gutterSize="3">
-            <mat-grid-tile *ngFor="let tile of tiles" [colspan]=1 [rowspan]=1>
-                <div class="tile-content" [ngClass]= "{'alive-tile': tile.isAlive(), 'empty-tile': !tile.isAlive() }" (click)="onTileClick(tile)">
-                </div>
-            </mat-grid-tile>
-        </mat-grid-list>  
+    <mat-grid-list cols="{{dimension}}" gutterSize="3">
+        <mat-grid-tile *ngFor="let tile of tiles" [colspan]=1 [rowspan]=1>
+            <div class="tile-content" [ngClass]="{'alive-tile': tile.isAlive(), 'empty-tile': !tile.isAlive() }"
+                (click)="onTileClick(tile)">
+                <!-- <span *ngIf="tile.lifeTime !==0" matBadge="1" matBadgeSize="large" content="{{tile.lifeTime}}"></span> -->
+                <strong class="lifeTime" *ngIf="tile.lifeTime !==0">{{tile.lifeTime}}</strong>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
 </div>
-
-
-
-
-
-  

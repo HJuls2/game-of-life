@@ -1,49 +1,51 @@
-mat-grid-tile{
+mat-grid-tile {
     cursor: pointer;
 }
 
-#grid-container{
+#grid-container {
     position: relative;
     margin: 0 auto;
     width: 85vh;
 }
 
-.tile-content{
+.tile-content {
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     width: 100%;
     height: 100%;
+    line-height: 100%;
+    text-align: center;
 }
 
-.alive-tile{
+.alive-tile {
     background-color: #ff4081;
 }
 
-.empty-tile{
+.empty-tile {
     background-color: white;
 }
 
-.tile-content > mat-icon{
-    margin-left: 8px;
+.lifeTime {
+    padding: 33% 0 33% 0;
+    font-size: 1.5em;
+    color: #3f51b5;
 }
 
-@media screen and (max-width: 960px){
-    #grid-container{
+@media screen and (max-width: 960px) {
+    #grid-container {
         width: 864px;
     }
 }
 
-@media screen and (max-width: 600px){
-    #grid-container{
+@media screen and (max-width: 600px) {
+    #grid-container {
         width: 540px;
     }
 }
 
-@media screen and (max-width: 480px){
-    #grid-container{
+@media screen and (max-width: 480px) {
+    #grid-container {
         width: 90vw;
     }
 }
-
-

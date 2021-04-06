@@ -18,12 +18,23 @@ export class Tile {
 
     public born(){
             this._state = TileState.ALIVE;
+            this.increaseLifeTime();
     }
 
     public die(){
             this._state = TileState.DEAD;
             this.resetLifeTime();
     }
+
+    public increaseLifeTime(): void{
+        this._lifeTime += 1;
+    }
+
+    public resetLifeTime(): void{
+        this._lifeTime = 0;
+    }
+
+    /* ---- Getters and Setters -----*/
 
     public get id(){
         return this._id;
@@ -49,13 +60,6 @@ export class Tile {
         this._lifeTime = lifeTime;
     }
 
-    public increaseLifeTime(): void{
-        this._lifeTime += 1;
-    }
-
-    private resetLifeTime(): void{
-        this._lifeTime = 0;
-    }
 
 
 
